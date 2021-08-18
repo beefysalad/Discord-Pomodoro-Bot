@@ -2,6 +2,7 @@
 //token ODczMDI3NzYwMjU0MjI2NDMy.YQycdg.K-L5Y0P3K6U_rGvvelS4aICGymA
 // const axios = require('axios')
 // const Discord = require('discord.js')
+ //"token": "ODczMDI3NzYwMjU0MjI2NDMy.YQycdg.K-L5Y0P3K6U_rGvvelS4aICGymA"
 const { joinVoiceChannel, getVoiceConnection, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus} = require('@discordjs/voice')
 const Discord = require('discord.js')
 const { Client, Intents, VoiceChannel }  = require('discord.js')
@@ -30,6 +31,7 @@ let flag, flag2,canRemove,timerStop=false,goon=false
 let target
 let myTime,continueTime, breakTime
 let cont = false, sbrk=false,lbrk=false
+let start = true
 client.on('messageCreate',async(msg)=>{
     
     if(!msg.content.startsWith(prefix) || msg.author.bot) return
@@ -64,12 +66,44 @@ client.on('messageCreate',async(msg)=>{
             msg.reply('You must be in a voice channel to start a pomodoro!')
             return
         }
+        let found=false
+        if(!start){
+        
+            for(let i=0;i<todo.length; i++){
+                if(msg.author.id===todo[i].id){
+                    found=true
+                    msg.reply('You have an active pomodoro! Please use $stop to remove your current pomodoro or use $help to see instructions on setting up pomodoro ')
+                    return
+                }
+            }
+            
+        }
+        start = false
         var info = {}
         info.id = msg.author.id
         info.list = []
         info.time
-        info.target 
+        info.target
+        let ina
         todo.push(info)
+        for(let i=0;i<todo.length; i++){
+            if(msg.author.id===todo[i].id){
+                ina = i
+            
+            }
+        }
+        console.log(ina)
+        if(todo[ina].hasPomodoro===undefined){
+            console.log(todo[ina].hasPomodoro)
+            info.hasPomodoro = true 
+        }
+        else if(todo[ina].hasPomodoro){
+            msg.reply("You already have an active pomodoro!")
+            return
+        }
+        
+        
+        
         const msgEmbed = new Discord.MessageEmbed()
             .setColor('#190933')
             .setTitle('Alora Bot')
@@ -219,7 +253,7 @@ client.on('messageCreate',async(msg)=>{
             const msgEmbed = new Discord.MessageEmbed()
             .setColor('#190933')
             .setTitle(`Invalid!`)
-            .setDescription('You must first start a pomodoro in order to remove your entry')
+            .setDescription('You must first start a pomodoro in order to set a timer')
             msg.reply({embeds: [msgEmbed]})
            
         }
