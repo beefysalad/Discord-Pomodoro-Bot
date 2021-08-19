@@ -564,46 +564,83 @@ client.on('messageCreate',async(msg)=>{
         joinVc(msg)
     }
     else if(command==='check'){
-        let ina
-        for(let i=0;i<todo.length; i++){
+        let ina 
+        for(let i=0; i<todo.length; i++){
             if(msg.author.id===todo[i].id){
                 ina = i
             }
         }
-        if(bool){
-            if(hasTime){
-                const date = new Date()
-                let hour = date.getHours()
-                let minute = date.getMinutes()
-                let maTime = minute + todo[ina].time
-                let ind = 'AM'
-                let finalmins
-                if(maTime>60){
-                    let hoursCount = Math.floor(maTime/60)
-                    let hourTarget = 60 * hoursCount
-                    finalmins = maTime - hourTarget
-                    // maTime = maTime - 60
-                    hour = hour + hoursCount
-                    
-                }
-                if(hour>12){
-                    hour-=12
-                    ind = 'PM'
-                }
-               
-                msg.reply(`Your current pomodoro session will end at ${hour}:${finalmins} ${ind}`)
-            }
-           else{
-               msg.reply('You must first set your timer!')
-               return
-           }
+        const date = new Date()
+        let hour = date.getHours()
+        let minute= date.getMinutes()
+        minute = minute + todo[ina].time
+        let ind = 'AM'
+        let hoursCount,hourTarget
+        if(minute>60){
+            hoursCount = Math.floor(minute/60)
 
+            console.log(`hc ${hoursCount}`)
+
+            hourTarget = 60 * hoursCount
+
+            console.log(`ht ${hourTarget}`)
+
+            minute = minute - hourTarget
+
+            console.log(`fm ${minute}`)
+
+            hour = hour + hoursCount
+
+            console.log(`h ${hour}`)
         }
-        else{
-            msg.reply('You do not have an active pomodoro!')
-            return
+        if(hour>12){
+            hour-=12
+            ind = 'PM'
         }
+        msg.reply(`Your current pomodoro session will end at :${hour}:${minute} ${ind}`)
+
     }
+    // else if(command==='check'){
+    //     let ina
+    //     for(let i=0;i<todo.length; i++){
+    //         if(msg.author.id===todo[i].id){
+    //             ina = i
+    //         }
+    //     }
+    //     if(bool){
+    //         if(hasTime){
+    //             const date = new Date()
+    //             let hour = date.getHours()
+    //             let minute = date.getMinutes()
+    //             let maTime = minute + todo[ina].time
+    //             let ind = 'AM'
+    //             let finalmins
+    //             if(maTime>60){
+    //                 let hoursCount = Math.floor(maTime/60)
+    //                 let hourTarget = 60 * hoursCount
+    //                 finalmins = maTime - hourTarget
+    //                 // maTime = maTime - 60
+    //                 hour = hour + hoursCount
+                    
+    //             }
+    //             if(hour>12){
+    //                 hour-=12
+    //                 ind = 'PM'
+    //             }
+               
+    //             msg.reply(`Your current pomodoro session will end at ${hour}:${finalmins} ${ind}`)
+    //         }
+    //        else{
+    //            msg.reply('You must first set your timer!')
+    //            return
+    //        }
+
+    //     }
+    //     else{
+    //         msg.reply('You do not have an active pomodoro!')
+    //         return
+    //     }
+    // }
 
 })
 // function timer(minutes,msg){
