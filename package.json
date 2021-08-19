@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node index.js"
+    "start": "node index.js"
   },
   "author": "Jpatrick",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
     "@discordjs/voice": "^0.6.0",
+    "axios": "^0.21.1",
     "discord.js": "^13.1.0",
     "ffmpeg-static": "^4.4.0",
     "libsodium-wrappers": "^0.7.9"
@@ -18,5 +19,5 @@
   "engines": {
     "node": "16.x",
     "npm": "7.x"
- }
+  }
 }

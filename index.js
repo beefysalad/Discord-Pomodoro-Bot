@@ -12,7 +12,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 const {prefix, token} = require('./config.json')
 
 const path = require('path')
-const full_path = path.resolve('./pomodoro.m4a')
+const full_path = path.resolve('./new.mp3')
 console.clear()
 client.on('ready', ()=>{
     console.log(`We have logged in as ${client.user.tag}`)
@@ -30,7 +30,7 @@ let interval
 let flag, flag2,canRemove,timerStop=false,goon=false
 let target
 let myTime,continueTime, breakTime
-let cont = false, sbrk=false,lbrk=false
+let cont = false, sbrk=false,lbrk=false,hasTime=false
 let start = true
 client.on('messageCreate',async(msg)=>{
     
@@ -233,6 +233,7 @@ client.on('messageCreate',async(msg)=>{
                     {
                         todo[i].time = parseFloat(msgSplit)
                         todo[i].target = todo[i].time * 60
+                        hasTime = true
                     }
                 }
                 const msgEmbed = new Discord.MessageEmbed()
@@ -594,6 +595,47 @@ client.on('messageCreate',async(msg)=>{
     }
     else if(command==='j'){
         joinVc(msg)
+    }
+    else if(command==='check'){
+        let ina
+        for(let i=0;i<todo.length; i++){
+            if(msg.author.id===todo[i].id){
+                ina = i
+            }
+        }
+        if(bool){
+            if(hasTime){
+                const date = new Date()
+                let hour = date.getHours()
+                let minute = date.getMinutes()
+                let maTime = minute + todo[ina].time
+                let ind = 'AM'
+                let finalmins
+                if(maTime>60){
+                    let hoursCount = Math.floor(maTime/60)
+                    let hourTarget = 60 * hoursCount
+                    finalmins = maTime - hourTarget
+                    // maTime = maTime - 60
+                    hour = hour + hoursCount
+                    
+                }
+                if(hour>12){
+                    hour-=12
+                    ind = 'PM'
+                }
+               
+                msg.reply(`Your current pomodoro session will end at ${hour}:${finalmins} ${ind}`)
+            }
+           else{
+               msg.reply('You must first set your timer!')
+               return
+           }
+
+        }
+        else{
+            msg.reply('You do not have an active pomodoro!')
+            return
+        }
     }
 
 })
