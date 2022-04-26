@@ -1,12 +1,9 @@
-//123416542832
-//token ODczMDI3NzYwMjU0MjI2NDMy.YQycdg.K-L5Y0P3K6U_rGvvelS4aICGymA
-// const axios = require('axios')
-// const Discord = require('discord.js')
+
 const { joinVoiceChannel, getVoiceConnection, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus} = require('@discordjs/voice')
 const Discord = require('discord.js')
 const { Client, Intents, VoiceChannel }  = require('discord.js')
 
-// const clientz = new Discord.Client()
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.GUILD_VOICE_STATES] });
 const {prefix, token} = require('./config.json')
 
